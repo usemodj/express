@@ -13,11 +13,14 @@ var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
+app.set('photos', __dirname + '/public/photos');
 
 app.use(express.favicon());
 app.use(express.logger('dev'));
+app.use(express.bodyParser({uploadDir: __dirname + '/temp'}));
+//app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/public/photos' }));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
@@ -35,6 +38,10 @@ if ('development' == app.get('env')) {
 //app.get('/', routes.index);
 app.get('/', photos.list);
 app.get('/users', user.list);
+app.get('/upload', photos.form);
+app.post('/upload', photos.submit(app.get('photos')));
+//file download
+app.get('/photo/:id/download', photos.download(app.get('photos')));
 
 http.createServer(app).listen(app.get('port'), function() {
     console.log('Express server listening on port ' + app.get('port'));
