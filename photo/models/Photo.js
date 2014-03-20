@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/photo_app');
-
-var schema = new mongoose.Schema({
+var Schema = mongoose.Schema;
+var photoSchema = new Schema({
 	name: String,
-	path: String
+	path: String,
+	date: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Photo', schema);
+module.exports = mongoose.model('Photo', photoSchema);
