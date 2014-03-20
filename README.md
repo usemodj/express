@@ -11,4 +11,4 @@ Node.js in Action Code
 ## Shoutbox
 * Authentication
 * REST API
-* Errors handling
+* Errors Handling
